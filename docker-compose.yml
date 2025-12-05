@@ -1,0 +1,19 @@
+
+services:
+  relatorio-api:
+    build: .
+    container_name: relatorio-export-api
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=mysql-container
+      - DB_USER=teste
+      - DB_PASS=urubu100
+      - DB_NAME=Timesync
+      - FLASK_ENV=production
+    networks:
+      - relatorio-network
+
+networks:
+  relatorio-network:
+    driver: bridge
