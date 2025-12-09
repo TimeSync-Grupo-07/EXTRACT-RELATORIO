@@ -18,12 +18,14 @@ CORS(app)  # Permite requisições do frontend
 def gerar_relatorio():
     # ---------------- CONFIGURAÇÃO via ENV ---------------- #
     DB_HOST = os.getenv("DB_HOST", "localhost")
+    DB_PORT = int(os.getenv("DB_PORT", 3306))
     DB_USER = os.getenv("DB_USER", "teste")
     DB_PASS = os.getenv("DB_PASS", "urubu100")
     DB_NAME = os.getenv("DB_NAME", "Timesync")
 
     db_config = {
         "host": DB_HOST,
+        "port": DB_PORT,
         "user": DB_USER,
         "password": DB_PASS,
         "database": DB_NAME
