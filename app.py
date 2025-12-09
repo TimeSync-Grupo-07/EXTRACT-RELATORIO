@@ -17,7 +17,7 @@ CORS(app)  # Permite requisições do frontend
 
 def gerar_relatorio():
     # ---------------- CONFIGURAÇÃO via ENV ---------------- #
-    DB_HOST = os.getenv("DB_HOST", "mysql-container")
+    DB_HOST = os.getenv("DB_HOST", "localhost")
     DB_USER = os.getenv("DB_USER", "teste")
     DB_PASS = os.getenv("DB_PASS", "urubu100")
     DB_NAME = os.getenv("DB_NAME", "Timesync")
@@ -101,7 +101,16 @@ def gerar_relatorio():
     data_comparativo = pd.read_sql("SELECT * FROM vw_comparativo_mensal", conn)
 
     # Nome do projeto e mês atual
-    projeto_nome = data_relatorio["nome_projeto"].iloc[0] if not data_relatorio.empty else "PROJETO"
+    if not data_relatorio.empty and 'nome_projeto' in data_relatorio.columns:
+        # Pega o primeiro projeto ou concatena todos
+        projetos = data_relatorio["nome_projeto"].unique()
+        if len(projetos) == 1:
+            projeto_nome = projetos[0]
+        else:
+            projeto_nome = f"{len(projetos)} Projetos"
+    else:
+        projeto_nome = "PROJETO"
+    
     mes_atual = datetime.now().strftime("%B %Y").upper()
 
     # ---------------- TÍTULO ---------------- #
